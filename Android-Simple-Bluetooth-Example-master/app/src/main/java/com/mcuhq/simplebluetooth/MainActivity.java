@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView mReadBuffer;
     private Button mScanBtn;
     private Button mOffBtn;
+    private Button mLeftBtn;
+    private Button mRightBtn;
+
     private Button mListPairedDevicesBtn;
     private Button mDiscoverBtn;
     private ListView mDevicesListView;
@@ -70,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         mReadBuffer = (TextView) findViewById(R.id.score);
         mScanBtn = (Button)findViewById(R.id.scan);
         mOffBtn = (Button)findViewById(R.id.off);
+        mLeftBtn = (Button)findViewById(R.id.left_button);
+        mRightBtn = (Button)findViewById(R.id.right_button);
+
         mDiscoverBtn = (Button)findViewById(R.id.discover);
         mListPairedDevicesBtn = (Button)findViewById(R.id.paired_btn);
         mLED1 = (CheckBox)findViewById(R.id.checkbox_led_1);
@@ -132,6 +138,22 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v){
                     bluetoothOff();
+                }
+            });
+
+            mLeftBtn.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    if(mConnectedThread != null) //First check to make sure thread created
+                        mConnectedThread.write("L");
+                }
+            });
+
+            mRightBtn.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    if(mConnectedThread != null) //First check to make sure thread created
+                        mConnectedThread.write("R");
                 }
             });
 
