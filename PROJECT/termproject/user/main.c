@@ -1,19 +1,23 @@
 #include "common.h"
 #include "servo.h"
-
-void RCC_Configure(void);
-void GPIO_Configure(void);
-void TIM2_Configure(void);
+#include "game.h"
+#include "bluetooth.h"
 
 
-PWM pwm;
-PWM pwm2;
 
 void delay(int d){
   for (int i = 0; i <= d; i++) {
       ;
   }
 } 
+
+
+/* ========================= SERVO ========================= */
+
+
+PWM pwm;
+PWM pwm2;
+
 static void pwm_setting(){
     pwm.OCMode     = TIM_OCMode_PWM1;
     pwm.rcc_timer    = RCC_APB1Periph_TIM4;
@@ -34,20 +38,92 @@ static void pwm_setting(){
     PWM_Configure(&pwm2);
 }
 
-    
-void RCC_Configure(void){
-    //  APB1_TIM2,4 clock enable
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+/* ========================== BT ==========================*/
 
-    //  APB2
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+BTConfig BT;
+
+// USART Interrupt Handler
+
+void USART1_IRQHandler() {
+    uint16_t word;
+    if(USART_GetITStatus(USART1,USART_IT_RXNE)!=RESET){
+    // the most recent received data by the USART1 peripheral
+    word = USART_ReceiveData(USART1);
+
+    
+    // 컴->폰으로 보내기 (추정)
+    USART_SendData(USART2, word);
+
+    // clear 'Read data register not empty' flag
+    USART_ClearITPendingBit(USART1,USART_IT_RXNE);
+    }
 }
 
+void USART2_IRQHandler(){
+    uint16_t word;
+    if(USART_GetITStatus(USART2,USART_IT_RXNE)!=RESET){
+    // the most recent received data by the USART2 peripheral
+
+    // 폰에서 보낸 데이터 받아서 처리
+    word = USART_ReceiveData(USART2);
+    if (word == 'L') {
+      printf("Left\n");
+      PWM_Rotate(&pwm, 80);
+      delay(800);
+      PWM_Rotate(&pwm, 0);
+    }
+    else if (word == 'R') {
+      printf("Right\n");
+      PWM_Rotate(&pwm, 0);
+      delay(800);
+      PWM_Rotate(&pwm, 80);
+    }
+    USART_SendData(USART1, word);
+
+    // clear 'Read data register not empty' flag
+    USART_ClearITPendingBit(USART2,USART_IT_RXNE);
+    }
+}
+/* ========================= GAME ========================= */
+
+GameStatus gameStatus;
+
+void GAME_init(){
+    gameStatus.start = 0;
+    // led 점멸 추가
+}
+
+void GAME_start(){
+    if (gameStatus.start != 1){
+        gameStatus.start = 1;
+        gameStatus.score = 0;
+        
+        // TODO: 서보 모터 구분 필요 (servo.c 수정)
+        //PWM_Rotate(&pwm, 180);
+        
+        // led 점멸 추가
+    }
+}
+
+void GAME_end(){
+    if (gameStatus.start != 0){
+        USART_SendData(USART2, 'e');
+        gameStatus.start = 0;
+        
+        // TODO: 서보 모터 구분 필요 (servo.c 수정)
+        //PWM_Rotate(&pwm, 180);
+        
+        // led 점멸 추가
+    }
+}
+
+/* ======================================================= */
+
+
+    
 void GPIO_Configure(void){
     GPIO_InitTypeDef GPIO_InitStructure;    
-
+    // 버튼
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;// INPUT PULL-DOWN
     GPIO_Init(GPIOD, &GPIO_InitStructure);
@@ -56,25 +132,14 @@ void GPIO_Configure(void){
 
 int main(){
     SystemInit();
-    RCC_Configure();
-    GPIO_Configure();
+    BT_init(&BT);
+    GAME_init();
     pwm_setting();
     
-    
-    while (1) {
-      // TODO: 버튼 누르면 모터로 치는 부분 -> 블루투스 연동 후 앱 버튼으로 수정해야 함
-      if (!GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_11)){
-        change_pwm_cycle(&pwm, 180);
-        delay(100000);
-        change_pwm_cycle(&pwm, 0);
+    while(1) {
         
-      }
-      if (!GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_12)){
-        change_pwm_cycle(&pwm2, 180);
-        delay(100000);
-        change_pwm_cycle(&pwm2, 0);
-      }  
     }
+    
 
     return 0;
 }
