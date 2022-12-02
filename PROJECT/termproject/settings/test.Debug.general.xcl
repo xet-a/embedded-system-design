@@ -1,14 +1,12 @@
-"C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\bin\armPROC.dll" 
+"D:\arm\bin\armPROC.dll" 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\bin\armJLINK.dll" 
+"D:\arm\bin\armSIM2.dll" 
 
-"C:\Users\ZETA\Desktop\3-2\EMB\PROJECT\termproject\Debug\Exe\test.out" 
+"D:\EMB\embedded_system_design\PROJECT\termproject\Debug\Exe\test.out" 
 
---plugin="C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm\bin\armbat.dll" 
+--plugin="D:\arm\bin\armbat.dll" 
 
---device_macro="C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm/config/debugger/ST/STM32F1xx.dmac" 
-
---flash_loader="C:\Program Files\IAR Systems\Embedded Workbench 9.1\arm/config/flashloader/ST/FlashSTM32F105xC.board" 
+--device_macro="D:\arm/config/debugger/ST/STM32F1xx.dmac" 
 
 
 
