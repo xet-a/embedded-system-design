@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     if(mConnectedThread != null) { //First check to make sure thread created
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             mConnectedThread.write("LD");
-                            mCenterBtn.setText("LD");
+                             mCenterBtn.setText("LD");
 
                         } else if (event.getAction() == MotionEvent.ACTION_UP) {
                             mConnectedThread.write("LU");
@@ -177,6 +177,15 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     return false;
+                }
+            });
+
+            mCenterBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v){
+                    if (mConnectedThread != null) {//First check to make sure thread created
+                        mConnectedThread.run();
+                    }
                 }
             });
 
