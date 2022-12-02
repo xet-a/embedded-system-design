@@ -42,7 +42,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <DebugChecksum>
-        <Checksum>2330025445</Checksum>
+        <Checksum>3043132798</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -95,8 +95,7 @@
         <Count>0</Count>
     </Breakpoints2>
     <Aliases>
-        <A0>_ "C:\Users\pnu6\Desktop\project_test\Libraries\CMSIS\DeviceSupport\Startup\startup_stm32f10x_cl.s" ""</A0>
-        <Count>1</Count>
+        <Count>0</Count>
         <SuppressDialog>0</SuppressDialog>
     </Aliases>
     <PlDriver>
