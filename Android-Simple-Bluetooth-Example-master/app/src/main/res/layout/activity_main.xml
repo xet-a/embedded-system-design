@@ -96,6 +96,7 @@
             android:layout_weight="1"
             android:text="LEFT"/>
         <Button
+            android:id="@+id/center_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="#00000000"

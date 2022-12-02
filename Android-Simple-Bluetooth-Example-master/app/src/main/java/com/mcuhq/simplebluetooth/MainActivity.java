@@ -1,6 +1,7 @@
 package com.mcuhq.simplebluetooth;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -17,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mOffBtn;
     private Button mLeftBtn;
     private Button mRightBtn;
+    private Button mCenterBtn;
 
     private Button mListPairedDevicesBtn;
     private Button mDiscoverBtn;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         mOffBtn = (Button)findViewById(R.id.off);
         mLeftBtn = (Button)findViewById(R.id.left_button);
         mRightBtn = (Button)findViewById(R.id.right_button);
+        mCenterBtn = (Button)findViewById(R.id.center_button);
 
         mDiscoverBtn = (Button)findViewById(R.id.discover);
         mListPairedDevicesBtn = (Button)findViewById(R.id.paired_btn);
@@ -141,19 +146,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            mLeftBtn.setOnClickListener(new View.OnClickListener(){
+            mLeftBtn.setOnTouchListener(new View.OnTouchListener(){
+                //@SuppressLint("ClickableViewAccessibility")
                 @Override
-                public void onClick(View v){
-                    if(mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("L");
+                public boolean onTouch(View v, MotionEvent event){
+                    if(mConnectedThread != null) { //First check to make sure thread created
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            mConnectedThread.write("LD");
+                            mCenterBtn.setText("LD");
+
+                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                            mConnectedThread.write("LU");
+                            mCenterBtn.setText("LU");
+                        }
+                    }
+                    return false;
                 }
             });
 
-            mRightBtn.setOnClickListener(new View.OnClickListener(){
+            mRightBtn.setOnTouchListener(new View.OnTouchListener(){
                 @Override
-                public void onClick(View v){
-                    if(mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("R");
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (mConnectedThread != null) {//First check to make sure thread created
+                        if (event.getAction() == MotionEvent.ACTION_BUTTON_RELEASE) {
+                            mConnectedThread.write("RD");
+                            mCenterBtn.setText("RD");
+                        } else if (event.getAction() == MotionEvent.ACTION_BUTTON_RELEASE) {
+                            mConnectedThread.write("RU");
+                            mCenterBtn.setText("RU");
+                        }
+                    }
+                    return false;
                 }
             });
 
