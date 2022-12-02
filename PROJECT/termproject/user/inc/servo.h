@@ -3,18 +3,7 @@
 
 #include "common.h"
 
-typedef struct _PWM{
-    int            channel;
-    uint16_t       OCMode;
-    uint32_t       rcc_timer;
-    TIM_TypeDef*   timer;
-    uint32_t       rcc_gpio;
-    GPIO_TypeDef*  gpio_port;
-    uint16_t       gpio_pin;
-}PWM;
-
-
-void PWM_Configure(PWM*);
-void PWM_Rotate(PWM*, int);
+void SERVO_Init(void);
+void SERVO_Rotate(int select, int degree);
 
 #endif

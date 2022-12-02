@@ -15,29 +15,6 @@ void delay(int d){
 /* ========================= SERVO ========================= */
 
 
-PWM pwm;
-PWM pwm2;
-
-static void pwm_setting(){
-    pwm.OCMode     = TIM_OCMode_PWM1;
-    pwm.rcc_timer    = RCC_APB1Periph_TIM4;
-    pwm.timer           = TIM4;
-    pwm.rcc_gpio     = RCC_APB2Periph_GPIOB;
-    pwm.gpio_port    = GPIOB;
-    pwm.gpio_pin     = GPIO_Pin_8;
-    pwm.channel      = 3;
-    PWM_Configure(&pwm);
-    
-    pwm2.OCMode    = TIM_OCMode_PWM1;
-    pwm2.rcc_timer   = RCC_APB1Periph_TIM4;
-    pwm2.timer          = TIM4;
-    pwm2.rcc_gpio    = RCC_APB2Periph_GPIOB;
-    pwm2.gpio_port   = GPIOB;
-    pwm2.gpio_pin    = GPIO_Pin_9;
-    pwm2.channel     = 4;
-    PWM_Configure(&pwm2);
-}
-
 /* ========================== BT ==========================*/
 
 BTConfig BT;
@@ -68,15 +45,11 @@ void USART2_IRQHandler(){
     word = USART_ReceiveData(USART2);
     if (word == 'L') {
       printf("Left\n");
-      PWM_Rotate(&pwm, 80);
       delay(800);
-      PWM_Rotate(&pwm, 0);
     }
     else if (word == 'R') {
       printf("Right\n");
-      PWM_Rotate(&pwm, 0);
       delay(800);
-      PWM_Rotate(&pwm, 80);
     }
     USART_SendData(USART1, word);
 
@@ -134,10 +107,21 @@ int main(){
     SystemInit();
     BT_init(&BT);
     GAME_init();
-    pwm_setting();
+    printf("no ok");
+    SERVO_Init();
+    printf("ok");
     
     while(1) {
-        
+        printf("ok1");
+        setServo1(90);
+        printf("ok2");
+        delay(10000);
+        setServo1(180);
+        delay(10000);
+        setServo2(90);
+        printf("ok3");
+        delay(10000);
+        setServo2(180);
     }
     
 
