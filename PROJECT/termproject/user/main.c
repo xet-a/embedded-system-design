@@ -30,24 +30,18 @@ uint16_t motor_num = GPIO_Pin_2;
 PWM pwm;
 PWM pwm2;
 
-static void pwm_setting(){
+static void servo_setting(){
     pwm.OCMode     = TIM_OCMode_PWM1;
-    pwm.rcc_timer    = RCC_APB1Periph_TIM4;
-    pwm.timer           = TIM4;
-    pwm.rcc_gpio     = RCC_APB2Periph_GPIOB;
-    pwm.gpio_port    = GPIOB;
-    pwm.gpio_pin     = GPIO_Pin_8;
-    pwm.channel      = 3;
-    PWM_Configure(&pwm);
+    pwm.rcc_timer    = RCC_APB1Periph_TIM2;
+    pwm.timer           = TIM2;
+    pwm.channel      = 1;
+    SERVO_Configure(&pwm);
     
     pwm2.OCMode    = TIM_OCMode_PWM1;
-    pwm2.rcc_timer   = RCC_APB1Periph_TIM4;
-    pwm2.timer          = TIM4;
-    pwm2.rcc_gpio    = RCC_APB2Periph_GPIOB;
-    pwm2.gpio_port   = GPIOB;
-    pwm2.gpio_pin    = GPIO_Pin_9;
-    pwm2.channel     = 4;
-    PWM_Configure(&pwm2);
+    pwm2.rcc_timer   = RCC_APB1Periph_TIM3;
+    pwm2.timer          = TIM3;
+    pwm2.channel     = 1;
+    SERVO_Configure(&pwm2);
 }
 
 /* ========================== BT ==========================*/
@@ -80,15 +74,15 @@ void USART2_IRQHandler(){
     word = USART_ReceiveData(USART2);
     if (word == 'L') {
       printf("Left\n");
-      PWM_Rotate(&pwm, 80);
+      SERVO_Rotate(&pwm, 80);
       delay(800);
-      PWM_Rotate(&pwm, 0);
+      SERVO_Rotate(&pwm, 0);
     }
     else if (word == 'R') {
       printf("Right\n");
-      PWM_Rotate(&pwm, 0);
+      SERVO_Rotate(&pwm, 0);
       delay(800);
-      PWM_Rotate(&pwm, 80);
+      SERVO_Rotate(&pwm, 80);
     }
     USART_SendData(USART1, word);
 
@@ -111,7 +105,7 @@ void GAME_start(){
         gameStatus.score = 0;
         
         // TODO: 서보 모터 구분 필요 (servo.c 수정)
-        //PWM_Rotate(&pwm, 180);
+        //SERVO_Rotate(&pwm, 180);
         
         // led 점멸 추가
     }
@@ -123,7 +117,7 @@ void GAME_end(){
         gameStatus.start = 0;
         
         // TODO: 서보 모터 구분 필요 (servo.c 수정)
-        //PWM_Rotate(&pwm, 180);
+        //SERVO_Rotate(&pwm, 180);
         
         // led 점멸 추가
     }
@@ -175,7 +169,8 @@ int main(){
     SystemInit();
     BT_init(&BT);
     sensor_Init();
-    pwm_setting();
+    SERVO_Init();
+    servo_setting();
     light_Init();
     GAME_init();
     
@@ -183,6 +178,13 @@ int main(){
         if (score > 150) {
             GPIO_SetBits(GPIOE, motor_num);
         }
+        
+        SERVO_Rotate(&pwm, 80);
+        SERVO_Rotate(&pwm2, 80);
+        delay(800);
+        SERVO_Rotate(&pwm, 0);
+        SERVO_Rotate(&pwm2, 0);
+        delay(800);
     }
     
 
