@@ -22,10 +22,12 @@ void sensor_ADC_Configure() {
   ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
   ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
   ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfChannel = 1;
+  ADC_InitStructure.ADC_NbrOfChannel = 2;
   ADC_Init(ADC1, &ADC_InitStructure);
   
   ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);
+  ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 2, ADC_SampleTime_239Cycles5);
+  // ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 3, ADC_SampleTime_239Cycles5);
   
   // Enable interrupt
   ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);
