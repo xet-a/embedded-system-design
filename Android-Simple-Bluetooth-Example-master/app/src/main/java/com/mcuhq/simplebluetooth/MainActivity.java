@@ -152,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onTouch(View v, MotionEvent event){
                     if(mConnectedThread != null) { //First check to make sure thread created
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            mConnectedThread.write("LD");
+                            mConnectedThread.write("1");
                              mCenterBtn.setText("LD");
 
                         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                            mConnectedThread.write("LU");
+                            mConnectedThread.write("2");
                             mCenterBtn.setText("LU");
                         }
                     }
@@ -168,11 +168,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (mConnectedThread != null) {//First check to make sure thread created
-                        if (event.getAction() == MotionEvent.ACTION_BUTTON_RELEASE) {
-                            mConnectedThread.write("RD");
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            mConnectedThread.write("3");
                             mCenterBtn.setText("RD");
-                        } else if (event.getAction() == MotionEvent.ACTION_BUTTON_RELEASE) {
-                            mConnectedThread.write("RU");
+                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                            mConnectedThread.write("4");
                             mCenterBtn.setText("RU");
                         }
                     }
