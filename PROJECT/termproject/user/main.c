@@ -111,7 +111,7 @@ void GAME_start(){
         gameStatus.score = 0;
         
         // TODO: 서보 모터 구분 필요 (servo.c 수정)
-        //PWM_Rotate(&pwm, 180);
+        //SERVO_Rotate(&pwm, 180);
         
         // led 점멸 추가
     }
@@ -123,7 +123,7 @@ void GAME_end(){
         gameStatus.start = 0;
         
         // TODO: 서보 모터 구분 필요 (servo.c 수정)
-        //PWM_Rotate(&pwm, 180);
+        //SERVO_Rotate(&pwm, 180);
         
         // led 점멸 추가
     }
@@ -183,6 +183,13 @@ int main(){
         if (score > 150) {
             GPIO_SetBits(GPIOE, motor_num);
         }
+        
+        PWM_Rotate(&pwm, 80);
+        PWM_Rotate(&pwm2, 80);
+        delay(800);
+        PWM_Rotate(&pwm, 0);
+        PWM_Rotate(&pwm2, 0);
+        delay(800);
     }
     
 

@@ -2363,6 +2363,12 @@
                 <name>$PROJ_DIR$\user\inc\game.h</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\user\inc\light.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\user\inc\motor.h</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\user\inc\sensor.h</name>
             </file>
             <file>
@@ -2383,6 +2389,12 @@
         </file>
         <file>
             <name>$PROJ_DIR$\user\main.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\user\motor.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\user\sensor.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\user\servo.c</name>

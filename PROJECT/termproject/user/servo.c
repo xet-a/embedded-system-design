@@ -32,7 +32,7 @@ void PWM_Configure(PWM* pwm){
     TIM_OCInitStructure.TIM_OutputState           = TIM_OutputState_Enable;
     TIM_OCInitStructure.TIM_Pulse       = 1500;
     
-    // TODO: 채널 분리 작동 안 됨
+    // TODO: a?? ?и? ??? ?? ??
     switch(pwm->channel){
     case 3:
       TIM_OC3Init(pwm->timer, &TIM_OCInitStructure);
@@ -59,6 +59,6 @@ void PWM_Rotate(PWM* pwm, int degree){
     tim_oc_init_struct.TIM_OCPolarity  = TIM_OCPolarity_High;
     tim_oc_init_struct.TIM_OutputState = TIM_OutputState_Enable;
     tim_oc_init_struct.TIM_Pulse       = pwm_pulse;
-    // 딜레이 꼭 넣어줄 것
+    // ?????? ?? ????? ??
     TIM_OC3Init(pwm->timer, &tim_oc_init_struct);
 }
