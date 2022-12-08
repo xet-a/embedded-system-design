@@ -1,0 +1,400 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         07/Dec/2022  00:23:49
+# Copyright 1999-2022 IAR Systems AB.
+#
+#    Cpu mode                     =  thumb
+#    Endian                       =  little
+#    Source file                  =
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\sensor.c
+#    Command line                 =
+#        -f
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user\sensor.o.rsp
+#        (C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\sensor.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\List\user
+#        -o
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa
+#        --no_clustering --no_scheduling --debug --endian=little
+#        --cpu=Cortex-M3 -e --fpu=None --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 9.1\arm\inc\c\DLib_Config_Normal.h" -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\CMSIS\DeviceSupport\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\inc\
+#        -Ol -I "C:\Program Files\IAR Systems\Embedded Workbench
+#        9.1\arm\CMSIS\Core\Include\\") --dependencies=n
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user\sensor.o.d
+#    Locale                       =  C
+#    List file                    =
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\List\user\sensor.lst
+#    Object file                  =
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user\sensor.o
+#    Runtime model:                  
+#      __CPP_Runtime              =  1
+#      __SystemLibrary            =  DLib
+#      __dlib_file_descriptor     =  0
+#      __dlib_full_locale_support =  0
+#      __dlib_version             =  6
+#      __iar_require _Printf         
+#      __size_limit               =  32768|ARM.EW.LINKER
+#
+###############################################################################
+
+C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\sensor.c
+      1          #include "sensor.h"
+      2          
+
+   \                                 In section .bss, align 4
+      3          volatile uint32_t ADC_Value[1];
+   \                     ADC_Value:
+   \        0x0                      DS8 4
+
+   \                                 In section .text, align 2, keep-with-next
+      4          void sensor_RCC_Configure() {
+   \                     sensor_RCC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+      5            RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0xF44F 0x7000      MOV      R0,#+512
+   \        0x8   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+      6            RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+   \        0xC   0x2101             MOVS     R1,#+1
+   \        0xE   0x2008             MOVS     R0,#+8
+   \       0x10   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+      7            // RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+      8            // DMA port clock enable
+      9            RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
+   \       0x14   0x2101             MOVS     R1,#+1
+   \       0x16   0x2001             MOVS     R0,#+1
+   \       0x18   0x.... 0x....      BL       RCC_AHBPeriphClockCmd
+     10          }
+   \       0x1C   0xBD01             POP      {R0,PC}
+     11          
+
+   \                                 In section .text, align 2, keep-with-next
+     12          void sensor_GPIO_Configure() {
+   \                     sensor_GPIO_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     13            GPIO_InitTypeDef GPIO_InitStructure;
+     14            
+     15            // ADC Port Configure
+     16            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
+   \        0x2   0x2003             MOVS     R0,#+3
+   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     17            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+   \        0x8   0x2000             MOVS     R0,#+0
+   \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     18            GPIO_Init(GPIOB, &GPIO_InitStructure);
+   \        0xE   0x4669             MOV      R1,SP
+   \       0x10   0x....             LDR.N    R0,??DataTable3_2
+   \       0x12   0x.... 0x....      BL       GPIO_Init
+     19          }
+   \       0x16   0xBD01             POP      {R0,PC}
+     20          
+
+   \                                 In section .text, align 2, keep-with-next
+     21          void sensor_ADC_Configure() {
+   \                     sensor_ADC_Configure: (+1)
+   \        0x0   0xB518             PUSH     {R3,R4,LR}
+   \        0x2   0xB085             SUB      SP,SP,#+20
+     22            ADC_InitTypeDef ADC_InitStructure;
+     23            
+     24            // ADC Configure
+     25            ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+   \        0x4   0x2000             MOVS     R0,#+0
+   \        0x6   0x9000             STR      R0,[SP, #+0]
+     26            ADC_InitStructure.ADC_ScanConvMode = ENABLE;
+   \        0x8   0x2001             MOVS     R0,#+1
+   \        0xA   0xF88D 0x0004      STRB     R0,[SP, #+4]
+     27            ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
+   \        0xE   0x2001             MOVS     R0,#+1
+   \       0x10   0xF88D 0x0005      STRB     R0,[SP, #+5]
+     28            ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+   \       0x14   0xF45F 0x2060      MOVS     R0,#+917504
+   \       0x18   0x9002             STR      R0,[SP, #+8]
+     29            ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+   \       0x1A   0x2000             MOVS     R0,#+0
+   \       0x1C   0x9003             STR      R0,[SP, #+12]
+     30            ADC_InitStructure.ADC_NbrOfChannel = 2;
+   \       0x1E   0x2002             MOVS     R0,#+2
+   \       0x20   0xF88D 0x0010      STRB     R0,[SP, #+16]
+     31            ADC_Init(ADC1, &ADC_InitStructure);
+   \       0x24   0x....             LDR.N    R4,??DataTable3_3
+   \       0x26   0x4669             MOV      R1,SP
+   \       0x28   0x0020             MOVS     R0,R4
+   \       0x2A   0x.... 0x....      BL       ADC_Init
+     32            
+     33            ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 1, ADC_SampleTime_239Cycles5);
+   \       0x2E   0x2307             MOVS     R3,#+7
+   \       0x30   0x2201             MOVS     R2,#+1
+   \       0x32   0x2108             MOVS     R1,#+8
+   \       0x34   0x0020             MOVS     R0,R4
+   \       0x36   0x.... 0x....      BL       ADC_RegularChannelConfig
+     34            ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 2, ADC_SampleTime_239Cycles5);
+   \       0x3A   0x2307             MOVS     R3,#+7
+   \       0x3C   0x2202             MOVS     R2,#+2
+   \       0x3E   0x2109             MOVS     R1,#+9
+   \       0x40   0x0020             MOVS     R0,R4
+   \       0x42   0x.... 0x....      BL       ADC_RegularChannelConfig
+     35            // ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 3, ADC_SampleTime_239Cycles5);
+     36            
+     37            // Enable interrupt
+     38            //ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);
+     39            ADC_DMACmd(ADC1, ENABLE);
+   \       0x46   0x2101             MOVS     R1,#+1
+   \       0x48   0x0020             MOVS     R0,R4
+   \       0x4A   0x.... 0x....      BL       ADC_DMACmd
+     40            
+     41            // Enable ADC1
+     42            ADC_Cmd(ADC1, ENABLE);
+   \       0x4E   0x2101             MOVS     R1,#+1
+   \       0x50   0x0020             MOVS     R0,R4
+   \       0x52   0x.... 0x....      BL       ADC_Cmd
+     43            ADC_ResetCalibration(ADC1);
+   \       0x56   0x0020             MOVS     R0,R4
+   \       0x58   0x.... 0x....      BL       ADC_ResetCalibration
+     44            
+     45            printf("1\n");
+   \       0x5C   0x....             ADR.N    R0,??DataTable3
+   \       0x5E   0x.... 0x....      BL       printf
+     46            
+     47            while(ADC_GetResetCalibrationStatus(ADC1));
+   \                     ??sensor_ADC_Configure_0: (+1)
+   \       0x62   0x0020             MOVS     R0,R4
+   \       0x64   0x.... 0x....      BL       ADC_GetResetCalibrationStatus
+   \       0x68   0x2800             CMP      R0,#+0
+   \       0x6A   0xD1FA             BNE.N    ??sensor_ADC_Configure_0
+     48            
+     49            printf("2\n");
+   \       0x6C   0x....             ADR.N    R0,??DataTable3_1
+   \       0x6E   0x.... 0x....      BL       printf
+     50            
+     51            ADC_StartCalibration(ADC1);
+   \       0x72   0x0020             MOVS     R0,R4
+   \       0x74   0x.... 0x....      BL       ADC_StartCalibration
+     52            
+     53            while(ADC_GetCalibrationStatus(ADC1));
+   \                     ??sensor_ADC_Configure_1: (+1)
+   \       0x78   0x0020             MOVS     R0,R4
+   \       0x7A   0x.... 0x....      BL       ADC_GetCalibrationStatus
+   \       0x7E   0x2800             CMP      R0,#+0
+   \       0x80   0xD1FA             BNE.N    ??sensor_ADC_Configure_1
+     54            
+     55            ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+   \       0x82   0x2101             MOVS     R1,#+1
+   \       0x84   0x0020             MOVS     R0,R4
+   \       0x86   0x.... 0x....      BL       ADC_SoftwareStartConvCmd
+     56          }
+   \       0x8A   0xB006             ADD      SP,SP,#+24
+   \       0x8C   0xBD10             POP      {R4,PC}
+     57          
+
+   \                                 In section .text, align 2, keep-with-next
+     58          void sensor_DMA_Configure(void) {
+   \                     sensor_DMA_Configure: (+1)
+   \        0x0   0xB518             PUSH     {R3,R4,LR}
+   \        0x2   0xB08B             SUB      SP,SP,#+44
+     59            DMA_InitTypeDef DMA_Instructure;
+     60            
+     61            DMA_DeInit(DMA1_Channel1);
+   \        0x4   0x....             LDR.N    R4,??DataTable3_4
+   \        0x6   0x0020             MOVS     R0,R4
+   \        0x8   0x.... 0x....      BL       DMA_DeInit
+     62            /* DMA Configuration */
+     63            ////////////////////////////////////////////////////////
+     64            
+     65            DMA_Instructure.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR;
+   \        0xC   0x....             LDR.N    R0,??DataTable3_5
+   \        0xE   0x9000             STR      R0,[SP, #+0]
+     66            DMA_Instructure.DMA_MemoryBaseAddr = (uint32_t)&ADC_Value[0];
+   \       0x10   0x....             LDR.N    R0,??DataTable3_6
+   \       0x12   0x9001             STR      R0,[SP, #+4]
+     67            DMA_Instructure.DMA_DIR = DMA_DIR_PeripheralSRC; // Peripheral에서 데이터 가져옴
+   \       0x14   0x2000             MOVS     R0,#+0
+   \       0x16   0x9002             STR      R0,[SP, #+8]
+     68            
+     69            DMA_Instructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+   \       0x18   0x2000             MOVS     R0,#+0
+   \       0x1A   0x9004             STR      R0,[SP, #+16]
+     70            DMA_Instructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+   \       0x1C   0x2080             MOVS     R0,#+128
+   \       0x1E   0x9005             STR      R0,[SP, #+20]
+     71            DMA_Instructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
+   \       0x20   0xF44F 0x7000      MOV      R0,#+512
+   \       0x24   0x9006             STR      R0,[SP, #+24]
+     72            DMA_Instructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
+   \       0x26   0xF44F 0x6000      MOV      R0,#+2048
+   \       0x2A   0x9007             STR      R0,[SP, #+28]
+     73            
+     74            DMA_Instructure.DMA_Mode = DMA_Mode_Circular; // Circular Mode
+   \       0x2C   0x2020             MOVS     R0,#+32
+   \       0x2E   0x9008             STR      R0,[SP, #+32]
+     75            DMA_Instructure.DMA_Priority = DMA_Priority_VeryHigh;
+   \       0x30   0xF44F 0x5040      MOV      R0,#+12288
+   \       0x34   0x9009             STR      R0,[SP, #+36]
+     76            DMA_Instructure.DMA_M2M = DMA_M2M_Disable;
+   \       0x36   0x2000             MOVS     R0,#+0
+   \       0x38   0x900A             STR      R0,[SP, #+40]
+     77            
+     78            /////////////////////////////////////////////////////////
+     79            
+     80            
+     81            DMA_Init(DMA1_Channel1, &DMA_Instructure);
+   \       0x3A   0x4669             MOV      R1,SP
+   \       0x3C   0x0020             MOVS     R0,R4
+   \       0x3E   0x.... 0x....      BL       DMA_Init
+     82            
+     83            DMA_Cmd(DMA1_Channel1, ENABLE);
+   \       0x42   0x2101             MOVS     R1,#+1
+   \       0x44   0x0020             MOVS     R0,R4
+   \       0x46   0x.... 0x....      BL       DMA_Cmd
+     84          }
+   \       0x4A   0xB00C             ADD      SP,SP,#+48
+   \       0x4C   0xBD10             POP      {R4,PC}
+     85          
+     86          /*void sensor_NVIC_Configure() {
+     87            NVIC_InitTypeDef NVIC_InitStructure;
+     88            
+     89            NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+     90            
+     91            // NVIC Line ADC1
+     92            NVIC_EnableIRQ(ADC1_2_IRQn);
+     93            NVIC_InitStructure.NVIC_IRQChannel = ADC1_2_IRQn;
+     94            NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+     95            NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+     96            NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+     97            NVIC_Init(&NVIC_InitStructure);
+     98          }*/
+     99          
+
+   \                                 In section .text, align 2, keep-with-next
+    100          void sensor_Init() {
+   \                     sensor_Init: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+    101            sensor_RCC_Configure();
+   \        0x2   0x.... 0x....      BL       sensor_RCC_Configure
+    102            sensor_GPIO_Configure();
+   \        0x6   0x.... 0x....      BL       sensor_GPIO_Configure
+    103            sensor_DMA_Configure();
+   \        0xA   0x.... 0x....      BL       sensor_DMA_Configure
+    104            //sensor_NVIC_Configure();
+    105            sensor_ADC_Configure();
+   \        0xE   0x.... 0x....      BL       sensor_ADC_Configure
+    106          }
+   \       0x12   0xBD01             POP      {R0,PC}
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3:
+   \        0x0   0x31 0x0A          DC8      0x31, 0x0A, 0x00, 0x00
+
+   \              0x00 0x00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_1:
+   \        0x0   0x32 0x0A          DC8      0x32, 0x0A, 0x00, 0x00
+
+   \              0x00 0x00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_2:
+   \        0x0   0x4001'0C00        DC32     0x40010c00
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_3:
+   \        0x0   0x4001'2400        DC32     0x40012400
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_4:
+   \        0x0   0x4002'0008        DC32     0x40020008
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_5:
+   \        0x0   0x4001'244C        DC32     0x4001244c
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable3_6:
+   \        0x0   0x....'....        DC32     ADC_Value
+
+   \                                 In section .rodata, align 4
+   \        0x0   0x31 0x0A          DC8 "1\012"
+
+   \              0x00
+   \        0x3                      DS8 1
+
+   \                                 In section .rodata, align 4
+   \        0x0   0x32 0x0A          DC8 "2\012"
+
+   \              0x00
+   \        0x3                      DS8 1
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      32   sensor_ADC_Configure
+        32   -> ADC_Cmd
+        32   -> ADC_DMACmd
+        32   -> ADC_GetCalibrationStatus
+        32   -> ADC_GetResetCalibrationStatus
+        32   -> ADC_Init
+        32   -> ADC_RegularChannelConfig
+        32   -> ADC_ResetCalibration
+        32   -> ADC_SoftwareStartConvCmd
+        32   -> ADC_StartCalibration
+        32   -> printf
+      56   sensor_DMA_Configure
+        56   -> DMA_Cmd
+        56   -> DMA_DeInit
+        56   -> DMA_Init
+       8   sensor_GPIO_Configure
+         8   -> GPIO_Init
+       8   sensor_Init
+         8   -> sensor_ADC_Configure
+         8   -> sensor_DMA_Configure
+         8   -> sensor_GPIO_Configure
+         8   -> sensor_RCC_Configure
+       8   sensor_RCC_Configure
+         8   -> RCC_AHBPeriphClockCmd
+         8   -> RCC_APB2PeriphClockCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable3
+       4  ??DataTable3_1
+       4  ??DataTable3_2
+       4  ??DataTable3_3
+       4  ??DataTable3_4
+       4  ??DataTable3_5
+       4  ??DataTable3_6
+       4  ?_0
+       4  ?_1
+       4  ADC_Value
+     142  sensor_ADC_Configure
+      78  sensor_DMA_Configure
+      24  sensor_GPIO_Configure
+      20  sensor_Init
+      30  sensor_RCC_Configure
+
+ 
+   4 bytes in section .bss
+   8 bytes in section .rodata
+ 322 bytes in section .text
+ 
+ 322 bytes of CODE  memory
+   8 bytes of CONST memory
+   4 bytes of DATA  memory
+
+Errors: none
+Warnings: none
