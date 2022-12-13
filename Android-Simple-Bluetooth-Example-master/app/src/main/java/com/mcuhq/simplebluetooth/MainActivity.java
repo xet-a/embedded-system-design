@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                 if(msg.what == MESSAGE_READ){
                     String readMessage = null;
                     readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
+
+                    //Log.v("test", "test : " + readMessage);
                     mReadBuffer.setText(readMessage);
                 }
 
@@ -184,7 +186,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v){
                     if (mConnectedThread != null) {//First check to make sure thread created
-                        mConnectedThread.run();
+                        mConnectedThread.write("k");
+                        mCenterBtn.setText("Start");
+
+                        //mConnectedThread.run();
                     }
                 }
             });
