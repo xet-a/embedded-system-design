@@ -1,0 +1,127 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.22.1.15669/W32 for ARM       13/Dec/2022  21:33:08
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user\light.c
+#    Command line =  
+#        -f C:\Users\pnu6\AppData\Local\Temp\EW7C3.tmp
+#        (C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user\light.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\Debug\List
+#        -o
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\Debug\Obj
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa
+#        --no_clustering --no_scheduling --debug --endian=little
+#        --cpu=Cortex-M3 -e --fpu=None --dlib_config "C:\Program Files
+#        (x86)\IAR Systems\Embedded Workbench
+#        8.0\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\CMSIS\DeviceSupport\
+#        -I
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user\
+#        -I
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user\inc\
+#        -Ol -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.0\arm\CMSIS\Core\Include\" -I "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 8.0\arm\CMSIS\DSP\Include\")
+#    Locale       =  C
+#    List file    =  
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\Debug\List\light.lst
+#    Object file  =  
+#        C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\Debug\Obj\light.o
+#
+###############################################################################
+
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user\light.c
+      1          #include "light.h"
+      2          
+      3          
+
+   \                                 In section .text, align 2, keep-with-next
+      4          void light_RCC_Configure() {
+   \                     light_RCC_Configure: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+      5            RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+   \   00000002   0x2101             MOVS     R1,#+1
+   \   00000004   0x2020             MOVS     R0,#+32
+   \   00000006   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+      6          }
+   \   0000000A   0xBD01             POP      {R0,PC}          ;; return
+      7          
+
+   \                                 In section .text, align 2, keep-with-next
+      8          void light_GPIO_Configure() {
+   \                     light_GPIO_Configure: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+      9            GPIO_InitTypeDef GPIO_InitStructure;
+     10            
+     11            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
+   \   00000002   0xF44F 0x6070      MOV      R0,#+3840
+   \   00000006   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     12            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+   \   0000000A   0x2010             MOVS     R0,#+16
+   \   0000000C   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     13            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+   \   00000010   0x2003             MOVS     R0,#+3
+   \   00000012   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     14            GPIO_Init(GPIOD, &GPIO_InitStructure);
+   \   00000016   0x4669             MOV      R1,SP
+   \   00000018   0x....             LDR.N    R0,??DataTable1  ;; 0x40011400
+   \   0000001A   0x.... 0x....      BL       GPIO_Init
+     15          }
+   \   0000001E   0xBD01             POP      {R0,PC}          ;; return
+     16          
+
+   \                                 In section .text, align 2, keep-with-next
+     17          void light_Init() {
+   \                     light_Init: (+1)
+   \   00000000   0xB580             PUSH     {R7,LR}
+     18            light_RCC_Configure();
+   \   00000002   0x.... 0x....      BL       light_RCC_Configure
+     19            light_GPIO_Configure();
+   \   00000006   0x.... 0x....      BL       light_GPIO_Configure
+     20          }
+   \   0000000A   0xBD01             POP      {R0,PC}          ;; return
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1:
+   \   00000000   0x40011400         DC32     0x40011400
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   light_GPIO_Configure
+         8   -> GPIO_Init
+       8   light_Init
+         8   -> light_GPIO_Configure
+         8   -> light_RCC_Configure
+       8   light_RCC_Configure
+         8   -> RCC_APB2PeriphClockCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+      32  light_GPIO_Configure
+      12  light_Init
+      12  light_RCC_Configure
+
+ 
+ 60 bytes in section .text
+ 
+ 60 bytes of CODE memory
+
+Errors: none
+Warnings: none

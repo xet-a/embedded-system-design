@@ -1,19 +1,19 @@
-"C:\Users\pnu6\Desktop\termp\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_iwdg.c"
+"C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\Libraries\STM32F10x_StdPeriph_Driver_v3.5\src\stm32f10x_iwdg.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-C:\Users\pnu6\Desktop\termp\libraries\CMSIS\DeviceSupport
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\CMSIS\DeviceSupport
 -I
-C:\Users\pnu6\Desktop\termp\libraries\CMSIS\DeviceSupport\Startup
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\CMSIS\DeviceSupport\Startup
 -I
-C:\Users\pnu6\Desktop\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc
 -I
-C:\Users\pnu6\Desktop\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\src
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\STM32F10x_StdPeriph_Driver_v3.5\src
 -I
-C:\Users\pnu6\Desktop\termp\user
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user
 -I
-C:\Users\pnu6\Desktop\termp\user\inc
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\CMSIS\Core\Include
 -I
@@ -23,17 +23,17 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\inc\c
 -I
-C:\Users\pnu6\Desktop\termp\libraries\CMSIS\DeviceSupport
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\CMSIS\DeviceSupport
 -I
-C:\Users\pnu6\Desktop\termp\libraries\CMSIS\DeviceSupport\Startup
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\CMSIS\DeviceSupport\Startup
 -I
-C:\Users\pnu6\Desktop\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc
 -I
-C:\Users\pnu6\Desktop\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\src
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\libraries\STM32F10x_StdPeriph_Driver_v3.5\src
 -I
-C:\Users\pnu6\Desktop\termp\user
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user
 -I
-C:\Users\pnu6\Desktop\termp\user\inc
+C:\Users\pnu6\Downloads\embedded_system_design-lab\PROJECT\termp_o\user\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\arm\CMSIS\Core\Include
 -I

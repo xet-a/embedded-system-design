@@ -60,6 +60,7 @@ void sensor_DMA_Configure(void) {
   DMA_DeInit(DMA1_Channel1);
   /* DMA Configuration */
   ////////////////////////////////////////////////////////
+  /*
   
   DMA_Instructure.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR;
   DMA_Instructure.DMA_MemoryBaseAddr = (uint32_t)&ADC_Value[0];
@@ -74,6 +75,7 @@ void sensor_DMA_Configure(void) {
   DMA_Instructure.DMA_Priority = DMA_Priority_VeryHigh;
   DMA_Instructure.DMA_M2M = DMA_M2M_Disable;
   
+  */
   /////////////////////////////////////////////////////////
   
   
