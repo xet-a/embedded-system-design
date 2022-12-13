@@ -1,0 +1,133 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V9.30.1.335/W64 for ARM         07/Dec/2022  00:23:16
+# Copyright 1999-2022 IAR Systems AB.
+#
+#    Cpu mode                     =  thumb
+#    Endian                       =  little
+#    Source file                  =
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\motor.c
+#    Command line                 =
+#        -f
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user\motor.o.rsp
+#        (C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\motor.c
+#        -D USE_STDPERIPH_DRIVER -D STM32F10X_CL -lC
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\List\user
+#        -o
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user
+#        --no_cse --no_unroll --no_inline --no_code_motion --no_tbaa
+#        --no_clustering --no_scheduling --debug --endian=little
+#        --cpu=Cortex-M3 -e --fpu=None --dlib_config "C:\Program Files\IAR
+#        Systems\Embedded Workbench 9.1\arm\inc\c\DLib_Config_Normal.h" -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\CMSIS\DeviceSupport\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\CMSIS\DeviceSupport\Startup\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\inc\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\libraries\STM32F10x_StdPeriph_Driver_v3.5\src\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\
+#        -I
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\inc\
+#        -Ol -I "C:\Program Files\IAR Systems\Embedded Workbench
+#        9.1\arm\CMSIS\Core\Include\\") --dependencies=n
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user\motor.o.d
+#    Locale                       =  C
+#    List file                    =
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\List\user\motor.lst
+#    Object file                  =
+#        C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\Debug\Obj\user\motor.o
+#    Runtime model:                  
+#      __CPP_Runtime              =  1
+#      __SystemLibrary            =  DLib
+#      __dlib_file_descriptor     =  0
+#      __dlib_full_locale_support =  0
+#      __dlib_version             =  6
+#      __size_limit               =  32768|ARM.EW.LINKER
+#
+###############################################################################
+
+C:\Users\ZETA\Desktop\EMB\embedded_system_design\PROJECT\termp\user\motor.c
+      1          #include "motor.h"
+      2          
+
+   \                                 In section .text, align 2, keep-with-next
+      3          void motor_RCC_Configure() {
+   \                     motor_RCC_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+      4            RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
+   \        0x2   0x2101             MOVS     R1,#+1
+   \        0x4   0x2040             MOVS     R0,#+64
+   \        0x6   0x.... 0x....      BL       RCC_APB2PeriphClockCmd
+      5          }
+   \        0xA   0xBD01             POP      {R0,PC}
+      6          
+
+   \                                 In section .text, align 2, keep-with-next
+      7          void motor_GPIO_Configure() {
+   \                     motor_GPIO_Configure: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+      8            GPIO_InitTypeDef GPIO_InitStructure;
+      9            
+     10            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+   \        0x2   0x2004             MOVS     R0,#+4
+   \        0x4   0xF8AD 0x0000      STRH     R0,[SP, #+0]
+     11            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+   \        0x8   0x2010             MOVS     R0,#+16
+   \        0xA   0xF88D 0x0003      STRB     R0,[SP, #+3]
+     12            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+   \        0xE   0x2003             MOVS     R0,#+3
+   \       0x10   0xF88D 0x0002      STRB     R0,[SP, #+2]
+     13            GPIO_Init(GPIOE, &GPIO_InitStructure);
+   \       0x14   0x4669             MOV      R1,SP
+   \       0x16   0x....             LDR.N    R0,??DataTable1
+   \       0x18   0x.... 0x....      BL       GPIO_Init
+     14          }
+   \       0x1C   0xBD01             POP      {R0,PC}
+     15          
+
+   \                                 In section .text, align 2, keep-with-next
+     16          void motor_Init() {
+   \                     motor_Init: (+1)
+   \        0x0   0xB580             PUSH     {R7,LR}
+     17            motor_RCC_Configure();
+   \        0x2   0x.... 0x....      BL       motor_RCC_Configure
+     18            motor_GPIO_Configure();
+   \        0x6   0x.... 0x....      BL       motor_GPIO_Configure
+     19          }
+   \        0xA   0xBD01             POP      {R0,PC}
+
+   \                                 In section .text, align 4, keep-with-next
+   \                     ??DataTable1:
+   \        0x0   0x4001'1800        DC32     0x40011800
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   motor_GPIO_Configure
+         8   -> GPIO_Init
+       8   motor_Init
+         8   -> motor_GPIO_Configure
+         8   -> motor_RCC_Configure
+       8   motor_RCC_Configure
+         8   -> RCC_APB2PeriphClockCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+      30  motor_GPIO_Configure
+      12  motor_Init
+      12  motor_RCC_Configure
+
+ 
+ 58 bytes in section .text
+ 
+ 58 bytes of CODE memory
+
+Errors: none
+Warnings: none

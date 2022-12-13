@@ -23,9 +23,8 @@ uint16_t light_num[4] = {
 };
 uint16_t motor_num = GPIO_Pin_2;
 
-volatile uint32_t ADC_Value[1];
 
-/* ========================= SERVO ========================= 
+/* ========================= SERVO ========================= */
 
 
 PWM pwm;
@@ -39,7 +38,7 @@ static void pwm_setting(){
     pwm.gpio_port    = GPIOB;
     pwm.gpio_pin     = GPIO_Pin_8;
     pwm.channel      = 3;
-    PWM_Configure(&pwm);
+    SERVO_Configure(&pwm);
     
     pwm2.OCMode    = TIM_OCMode_PWM1;
     pwm2.rcc_timer   = RCC_APB1Periph_TIM4;
@@ -48,7 +47,7 @@ static void pwm_setting(){
     pwm2.gpio_port   = GPIOB;
     pwm2.gpio_pin    = GPIO_Pin_9;
     pwm2.channel     = 4;
-    PWM_Configure(&pwm2);
+    SERVO_Configure(&pwm2);
 }
 
 /* ========================== BT ==========================*/
@@ -79,18 +78,18 @@ void USART2_IRQHandler(){
 
     // ?????? ???? ?????? ???? o??
     word = USART_ReceiveData(USART2);
-    /*if (word == 'L') {
+    if (word == 'L') {
       printf("Left\n");
-      PWM_Rotate(&pwm, 80);
+      //SERVO_Rotate(&pwm, 80);
       delay(800);
-      PWM_Rotate(&pwm, 0);
+      //SERVO_Rotate(&pwm, 0);
     }
     else if (word == 'R') {
       printf("Right\n");
-      PWM_Rotate(&pwm, 0);
+      //SERVO_Rotate(&pwm, 0);
       delay(800);
-      PWM_Rotate(&pwm, 80);
-    }*/
+      //SERVO_Rotate(&pwm, 80);
+    }
     USART_SendData(USART1, word);
 
     // clear 'Read data register not empty' flag
@@ -173,11 +172,11 @@ void GPIO_Configure(void){
 }
 
 
-void sensor_DMA_Configure(void) {
+/*void sensor_DMA_Configure(void) {
   DMA_InitTypeDef DMA_Instructure;
     
     DMA_DeInit(DMA1_Channel1);
-    /* DMA Configuration */
+    //* DMA Configuration
     ////////////////////////////////////////////////////////
     
     DMA_Instructure.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR;
@@ -234,7 +233,7 @@ void sensor_DMA_Configure(void) {
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);*/
+  NVIC_Init(&NVIC_InitStructure);
 }
 
 /*void DMA1_Channel1_IRQHandler(void) {
@@ -247,8 +246,11 @@ int main(){
     printf("Init\n");
     SystemInit();
     BT_init(&BT);
+    pwm_setting();
+    SERVO_Configure(&pwm);
+    SERVO_Configure(&pwm2);    
     //sensor_Init();
-    sensor_DMA_Configure();
+    //sensor_DMA_Configure();
     light_Init();
     GAME_init();
     
@@ -257,14 +259,14 @@ int main(){
             GPIO_SetBits(GPIOE, motor_num);
         }*/
         
-        printf("adc1: %d, adc2: %d\n", ADC_Value[0], ADC_Value[1]);
-        delay(50000);
-        /*PWM_Rotate(&pwm, 80);
-        PWM_Rotate(&pwm2, 80);
+        //printf("adc1: %d, adc2: %d\n", ADC_Value[0], ADC_Value[1]);
+        //delay(50000);
+        SERVO_Rotate(&pwm, 80);
+        SERVO_Rotate(&pwm2, 80);
         delay(800);
-        PWM_Rotate(&pwm, 0);
-        PWM_Rotate(&pwm2, 0);
-        delay(800);*/
+        SERVO_Rotate(&pwm, 0);
+        SERVO_Rotate(&pwm2, 0);
+        delay(800);
     }
     
 
