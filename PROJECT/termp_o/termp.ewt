@@ -2566,9 +2566,6 @@
                 <name>$PROJ_DIR$\user\inc\motor.h</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\user\inc\sensor.h</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\user\inc\servo.h</name>
             </file>
             <file>
@@ -2595,9 +2592,6 @@
         </file>
         <file>
             <name>$PROJ_DIR$\user\motor.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\user\sensor.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\user\servo.c</name>
