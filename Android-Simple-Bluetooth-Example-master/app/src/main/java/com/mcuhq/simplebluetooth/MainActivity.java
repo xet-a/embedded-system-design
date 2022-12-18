@@ -8,7 +8,6 @@ import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +22,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,12 +50,10 @@ public class MainActivity extends AppCompatActivity {
     private Button mOffBtn;
     private Button mLeftBtn;
     private Button mRightBtn;
-    private Button mCenterBtn;
+    private Button mStartBtn;
 
     private Button mListPairedDevicesBtn;
-    private Button mDiscoverBtn;
     private ListView mDevicesListView;
-    private CheckBox mLED1;
 
     private BluetoothAdapter mBTAdapter;
     private Set<BluetoothDevice> mPairedDevices;
@@ -79,11 +75,9 @@ public class MainActivity extends AppCompatActivity {
         mOffBtn = (Button)findViewById(R.id.off);
         mLeftBtn = (Button)findViewById(R.id.left_button);
         mRightBtn = (Button)findViewById(R.id.right_button);
-        mCenterBtn = (Button)findViewById(R.id.center_button);
+        mStartBtn = (Button)findViewById(R.id.start_button);
 
-        mDiscoverBtn = (Button)findViewById(R.id.discover);
         mListPairedDevicesBtn = (Button)findViewById(R.id.paired_btn);
-        mLED1 = (CheckBox)findViewById(R.id.checkbox_led_1);
 
         mBTArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
@@ -124,16 +118,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),getString(R.string.sBTdevNF),Toast.LENGTH_SHORT).show();
         }
         else {
-
-            mLED1.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    if(mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("1");
-                }
-            });
-
-
             mScanBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -155,11 +139,11 @@ public class MainActivity extends AppCompatActivity {
                     if(mConnectedThread != null) { //First check to make sure thread created
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             mConnectedThread.write("a");
-                             mCenterBtn.setText("LD");
+                             mStartBtn.setText("LD");
 
                         } else if (event.getAction() == MotionEvent.ACTION_UP) {
                             mConnectedThread.write("b");
-                            mCenterBtn.setText("LU");
+                            mStartBtn.setText("LU");
                         }
                     }
                     return false;
@@ -172,24 +156,22 @@ public class MainActivity extends AppCompatActivity {
                     if (mConnectedThread != null) {//First check to make sure thread created
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             mConnectedThread.write("c");
-                            mCenterBtn.setText("RD");
+                            mStartBtn.setText("RD");
                         } else if (event.getAction() == MotionEvent.ACTION_UP) {
                             mConnectedThread.write("d");
-                            mCenterBtn.setText("RU");
+                            mStartBtn.setText("RU");
                         }
                     }
                     return false;
                 }
             });
 
-            mCenterBtn.setOnClickListener(new View.OnClickListener() {
+            mStartBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
                     if (mConnectedThread != null) {//First check to make sure thread created
                         mConnectedThread.write("k");
-                        mCenterBtn.setText("Start");
-
-                        //mConnectedThread.run();
+                        mStartBtn.setText("Start");
                     }
                 }
             });
@@ -198,13 +180,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v){
                     listPairedDevices();
-                }
-            });
-
-            mDiscoverBtn.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    discover();
                 }
             });
         }
@@ -243,25 +218,6 @@ public class MainActivity extends AppCompatActivity {
         mBTAdapter.disable(); // turn off
         mBluetoothStatus.setText(getString(R.string.sBTdisabl));
         Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
-    }
-
-    private void discover(){
-        // Check if the device is already discovering
-        if(mBTAdapter.isDiscovering()){
-            mBTAdapter.cancelDiscovery();
-            Toast.makeText(getApplicationContext(),getString(R.string.DisStop),Toast.LENGTH_SHORT).show();
-        }
-        else{
-            if(mBTAdapter.isEnabled()) {
-                mBTArrayAdapter.clear(); // clear items
-                mBTAdapter.startDiscovery();
-                Toast.makeText(getApplicationContext(), getString(R.string.DisStart), Toast.LENGTH_SHORT).show();
-                registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-            }
-            else{
-                Toast.makeText(getApplicationContext(), getString(R.string.BTnotOn), Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     final BroadcastReceiver blReceiver = new BroadcastReceiver() {

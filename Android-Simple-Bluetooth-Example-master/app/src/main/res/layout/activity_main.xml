@@ -8,19 +8,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+
     tools:context="com.mcuhq.simplebluetooth.MainActivity">
 
-    <CheckBox
-        android:id="@+id/checkbox_led_1"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:checked="false"
-        android:scaleX="1.7"
-        android:scaleY="1.7"
-        android:text="Toggle LED"
-        android:textStyle="bold" />
+        android:textSize="40dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="Pinball Game"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,6 +32,9 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="SCORE:"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
             android:textStyle="bold" />
 
         <TextView
@@ -44,9 +44,9 @@
             android:layout_weight="0.9"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="&lt;Read Buffer>" />
+            android:textSize="20dp"/>
+<!--            android:text="&lt;Read Buffer>"-->
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +59,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Status:"
+            android:layout_gravity="center"
+            android:textAlignment="center"
             android:textStyle="bold" />
 
         <TextView
@@ -67,27 +69,45 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:text="&lt;Bluetooth Status>" />
+            android:maxLines="1"/>
+<!--            android:text="&lt;Bluetooth Status>" />-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth ON"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/off"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth OFF"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <Button
-        android:id="@+id/scan"
+        android:id="@+id/start_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bluetooth ON" />
+        android:text="START"/>
 
-    <Button
-        android:id="@+id/off"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bluetooth OFF" />
+        android:layout_height="40dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
+        android:layout_weight="2"
         android:weightSum="3">
         <Button
             android:id="@+id/left_button"
@@ -108,21 +128,23 @@
             android:layout_weight="1"
             android:text="RIGHT"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
     <Button
         android:id="@+id/paired_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Show paired Devices" />
 
-    <Button
-        android:id="@+id/discover"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Discover New Devices" />
+
 
     <ListView
         android:id="@+id/devices_list_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="151dp"
+        android:layout_weight="1"
         android:choiceMode="singleChoice" />
 </LinearLayout>
