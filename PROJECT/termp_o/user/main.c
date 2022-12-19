@@ -2,7 +2,6 @@
 #include "servo.h"
 #include "game.h"
 #include "bluetooth.h"
-#include "light.h"
 #include "motor.h"
 
 
@@ -12,19 +11,11 @@ void delay(int d){
   }
 } 
 
-uint16_t light_num[4] = {
-    GPIO_Pin_8,
-    GPIO_Pin_9,
-    GPIO_Pin_10,
-    GPIO_Pin_11
-};
 uint16_t motor_num = GPIO_Pin_2;
 
 volatile uint32_t ADC_Value[6];
 GameStatus gameStatus;
 uint16_t scoreResult[8];
-
-
 
 void getDecStr(uint16_t* str, uint16_t val){
   uint16_t i;
@@ -48,7 +39,7 @@ void getDecStr(uint16_t* str, uint16_t val){
 /* ========================= SERVO ========================= */
 
 
-PWM pwm, pwm2, pwm3, pwm4, pwm5;
+PWM pwm, pwm2, pwm3, pwm4, pwm5, pwm6;
 
 static void pwm_setting(){
     pwm.OCMode     = TIM_OCMode_PWM1;
@@ -71,33 +62,41 @@ static void pwm_setting(){
     SERVO_Configure(&pwm2);
     SERVO_Rotate(&pwm2, 150);
     
-    pwm3.OCMode    = TIM_OCMode_PWM1;
+    pwm3.OCMode      = TIM_OCMode_PWM1;
     pwm3.rcc_timer   = RCC_APB1Periph_TIM4;
-    pwm3.timer          = TIM4;
+    pwm3.timer       = TIM4;
     pwm3.rcc_gpio    = RCC_APB2Periph_GPIOB;
     pwm3.gpio_port   = GPIOB;
     pwm3.gpio_pin    = GPIO_Pin_6;
     pwm3.channel     = 1;
     SERVO_Configure(&pwm3);
     
-    // start servo
-    pwm4.OCMode    = TIM_OCMode_PWM1;
+    pwm4.OCMode      = TIM_OCMode_PWM1;
     pwm4.rcc_timer   = RCC_APB1Periph_TIM4;
-    pwm4.timer          = TIM4;
+    pwm4.timer       = TIM4;
     pwm4.rcc_gpio    = RCC_APB2Periph_GPIOB;
     pwm4.gpio_port   = GPIOB;
     pwm4.gpio_pin    = GPIO_Pin_7;
     pwm4.channel     = 2;
     SERVO_Configure(&pwm4);
     
-    pwm5.OCMode    = TIM_OCMode_PWM1;
-    pwm5.rcc_timer   = RCC_APB1Periph_TIM2;
-    pwm5.timer          = TIM2;
+    pwm5.OCMode      = TIM_OCMode_PWM1;
+    pwm5.rcc_timer   = RCC_APB1Periph_TIM3;
+    pwm5.timer       = TIM3;
     pwm5.rcc_gpio    = RCC_APB2Periph_GPIOA;
     pwm5.gpio_port   = GPIOA;
-    pwm5.gpio_pin    = GPIO_Pin_3;
-    pwm5.channel     = 4;
+    pwm5.gpio_pin    = GPIO_Pin_6;
+    pwm5.channel     = 1;
     SERVO_Configure(&pwm5);
+    
+    pwm6.OCMode      = TIM_OCMode_PWM1;
+    pwm6.rcc_timer   = RCC_APB1Periph_TIM3;
+    pwm6.timer       = TIM3;
+    pwm6.rcc_gpio    = RCC_APB2Periph_GPIOA;
+    pwm6.gpio_port   = GPIOA;
+    pwm6.gpio_pin    = GPIO_Pin_7;
+    pwm6.channel     = 2;
+    SERVO_Configure(&pwm6);
 }
 
 
@@ -114,9 +113,9 @@ void GAME_start(){
         gameStatus.start = 1;
         gameStatus.score = 0;
         
-        SERVO_Rotate(&pwm4, 180);
+        SERVO_Rotate(&pwm5, 180);
         delay(1000);
-        SERVO_Rotate(&pwm4, 0);
+        SERVO_Rotate(&pwm5, 0);
         
         // led ???? ???
     }
@@ -155,40 +154,47 @@ void USART1_IRQHandler() {
 void USART2_IRQHandler(){
     uint16_t word;
     if(USART_GetITStatus(USART2,USART_IT_RXNE)!=RESET){
+      word = USART_ReceiveData(USART2);
+      if (word == 'a') {
+        //printf("a\n");
+        SERVO_Rotate(&pwm, 210);
+      }
+      else if (word == 'b') {
+        //printf("b\n");
+        SERVO_Rotate(&pwm, 0);
+      }
+      else if (word == 'c') {
+        //printf("c\n");
+        SERVO_Rotate(&pwm2, 0);
+      }
+      else if (word == 'd') {
+        //printf("d\n");
+        SERVO_Rotate(&pwm2, 210);
+      }
+      else if (word == 'k') {
+        //printf("start button\n");
+        GAME_start();
+      }
       
-    word = USART_ReceiveData(USART2);
-    if (word == 'a') {
-      printf("a\n");
-      SERVO_Rotate(&pwm, 210);
-    }
-    else if (word == 'b') {
-      printf("b\n");
-      SERVO_Rotate(&pwm, 0);
-    }
-    else if (word == 'c') {
-      printf("c\n");
-      SERVO_Rotate(&pwm2, 0);
-    }
-    else if (word == 'd') {
-      printf("d\n");
-      SERVO_Rotate(&pwm2, 210);
-    }
-    /*else if (word == 's') {
-      printf("game score : %d\n", gameStatus.score);
-      USART_SendData(USART2, gameStatus.score);
-    }*/
-    else if (word == 'k') {
-      printf("start button\n");
-      GAME_start();
-    }
-    
-    USART_SendData(USART1, word);
-    USART_ClearITPendingBit(USART2,USART_IT_RXNE);
+      USART_SendData(USART1, word);
+      USART_ClearITPendingBit(USART2,USART_IT_RXNE);
     }
 }
 
 /* ========================= LED ========================= */
 
+void light_RCC_Configure() {
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+}
+
+void light_GPIO_Configure() {
+  GPIO_InitTypeDef GPIO_InitStructure;
+  
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_Init(GPIOD, &GPIO_InitStructure);
+}
 
 /* ========================= SENSOR ========================= */
 
@@ -317,24 +323,20 @@ void DMA1_Channel1_IRQHandler() {
     if (ADC_Value[0] < 500 || ADC_Value[1] < 500 || ADC_Value[2] < 500 
         || ADC_Value[3] < 1500 || ADC_Value[4] < 500) {
       
-      printf("adc1: %d, adc2: %d, adc3: %d\nadc4: %d, adc5: %d, adc6: %d\n", ADC_Value[0], ADC_Value[1], ADC_Value[2], ADC_Value[3], ADC_Value[4], ADC_Value[5]);
+      //printf("adc1: %d, adc2: %d, adc3: %d\nadc4: %d, adc5: %d, adc6: %d\n", ADC_Value[0], ADC_Value[1], ADC_Value[2], ADC_Value[3], ADC_Value[4], ADC_Value[5]);
+      GPIO_SetBits(GPIOD, GPIO_Pin_8);
+      SERVO_Rotate(&pwm6, 0);
+      delay(500);
+      SERVO_Rotate(&pwm6, 40);
+      delay(500);
+      SERVO_Rotate(&pwm6, 0);
       gameStatus.score++;
-      printf("game score : %d\n", gameStatus.score);
+      //printf("game score : %d\n", gameStatus.score);
       
-      if(gameStatus.score == 5){
-        SERVO_Rotate(&pwm3, 0);
-        //SERVO_Rotate(&pwm5, 0);
-        delay(500);
-        SERVO_Rotate(&pwm3, 30);
-        //SERVO_Rotate(&pwm5, 30);
-        delay(500);
-        SERVO_Rotate(&pwm3, 0);
-        //SERVO_Rotate(&pwm5, 0);
-      }
       
       getDecStr(scoreResult, gameStatus.score);
       USART_SendData(USART2, *scoreResult);
-      
+      GPIO_ResetBits(GPIOD, GPIO_Pin_8);
     }
     DMA_ClearITPendingBit(DMA1_IT_TC1);
   }
@@ -372,22 +374,33 @@ int main(){
     pwm_setting();
     BT_init(&BT);
     GAME_init();
-    light_Init();
+    light_RCC_Configure();
+    light_GPIO_Configure();
     sensor_RCC_Configure();
     sensor_GPIO_Configure();
     sensor_ADC_Configure();
     //sensor_NVIC_Configure();
     sensor_DMA_Configure();
+    motor_Init();
+    
+    int scoreFlag = 1;
     
     while(1) {
         /*if (score > 150) {
             GPIO_SetBits(GPIOE, GPIO_Pin_2);
-        }
-        GPIO_SetBits(GPIOE, GPIO_Pin_2);
-        //printf("adc1: %d, adc2: %d\n", ADC_Value[0], ADC_Value[1]);
-        delay(5000000);
-        GPIO_ResetBits(GPIOE, GPIO_Pin_2);*/
-      
+        }*/
+        /*if(gameStatus.score == 5 && scoreFlag){
+          SERVO_Rotate(&pwm3, 0);
+          SERVO_Rotate(&pwm4, 0);
+          delay(500);
+          SERVO_Rotate(&pwm3, 30);
+          SERVO_Rotate(&pwm4, 30);
+          delay(500);
+          SERVO_Rotate(&pwm3, 0);
+          SERVO_Rotate(&pwm4, 0);
+          scoreFlag = 0;
+          gameStatus.score++;
+        }*/
     
     }
     return 0;

@@ -32,7 +32,7 @@ void SERVO_Configure(PWM* pwm){
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
     //  APB1 clock (TIM2,4) enable
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
     //  APB2
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
@@ -42,7 +42,7 @@ void SERVO_Configure(PWM* pwm){
     GPIO_InitStructure.GPIO_Pin = pwm->gpio_pin;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; // Alternate Function
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
+    GPIO_Init(pwm->gpio_port, &GPIO_InitStructure);
     
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
     TIM_OCInitTypeDef TIM_OCInitStructure;
@@ -106,19 +106,19 @@ void SERVO_Rotate(PWM* pwm, int degree){
     switch(pwm->channel){
     case 1:
       TIM_OC1Init(pwm->timer, &tim_oc_init_struct);
-       printf("R1 \n");
+       //printf("R1 \n");
       break;
     case 2:
       TIM_OC2Init(pwm->timer, &tim_oc_init_struct);
-       printf("R2 \n");
+       //printf("R2 \n");
       break;
     case 3:
       TIM_OC3Init(pwm->timer, &tim_oc_init_struct);
-       printf("R3 \n");
+       //printf("R3 \n");
       break;
     case 4:
       TIM_OC4Init(pwm->timer, &tim_oc_init_struct);
-       printf("R4 \n");
+       //printf("R4 \n");
       break;
     default:
       break;
