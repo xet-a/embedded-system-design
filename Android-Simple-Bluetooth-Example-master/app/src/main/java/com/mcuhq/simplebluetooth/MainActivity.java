@@ -97,9 +97,12 @@ public class MainActivity extends AppCompatActivity {
                 if(msg.what == MESSAGE_READ){
                     String readMessage = null;
                     readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
-
-                    //Log.v("test", "test : " + readMessage);
-                    mReadBuffer.setText(readMessage);
+                    if (readMessage == "finish"){
+                        mReadBuffer.setText("Game over");
+                    }
+                    else{
+                        mReadBuffer.setText(readMessage);
+                    }
                 }
 
                 if(msg.what == CONNECTING_STATUS){
@@ -139,11 +142,9 @@ public class MainActivity extends AppCompatActivity {
                     if(mConnectedThread != null) { //First check to make sure thread created
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             mConnectedThread.write("a");
-                             mStartBtn.setText("LD");
 
                         } else if (event.getAction() == MotionEvent.ACTION_UP) {
                             mConnectedThread.write("b");
-                            mStartBtn.setText("LU");
                         }
                     }
                     return false;
@@ -156,10 +157,8 @@ public class MainActivity extends AppCompatActivity {
                     if (mConnectedThread != null) {//First check to make sure thread created
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             mConnectedThread.write("c");
-                            mStartBtn.setText("RD");
                         } else if (event.getAction() == MotionEvent.ACTION_UP) {
                             mConnectedThread.write("d");
-                            mStartBtn.setText("RU");
                         }
                     }
                     return false;
@@ -172,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     if (mConnectedThread != null) {//First check to make sure thread created
                         mConnectedThread.write("k");
                         mStartBtn.setText("Start");
+                        mReadBuffer.setText("0");
                     }
                 }
             });
