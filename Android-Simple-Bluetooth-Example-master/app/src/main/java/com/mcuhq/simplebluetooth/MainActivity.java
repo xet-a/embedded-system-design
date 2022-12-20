@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler; // Our main handler that will receive callback notifications
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
+    private String scoreString = null;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -90,18 +91,17 @@ public class MainActivity extends AppCompatActivity {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
-
         mHandler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg){
                 if(msg.what == MESSAGE_READ){
                     String readMessage = null;
                     readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
-                    if (readMessage == "finish"){
+                    if (readMessage.charAt(0) == 'e'){
                         mReadBuffer.setText("Game over");
                     }
                     else{
-                        mReadBuffer.setText(readMessage);
+                            mReadBuffer.setText(readMessage);
                     }
                 }
 
