@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mLeftBtn;
     private Button mRightBtn;
     private Button mStartBtn;
+    private int score = 0;
 
     private Button mListPairedDevicesBtn;
     private ListView mDevicesListView;
@@ -98,10 +99,12 @@ public class MainActivity extends AppCompatActivity {
                     String readMessage = null;
                     readMessage = new String((byte[]) msg.obj, StandardCharsets.UTF_8);
                     if (readMessage.charAt(0) == 'e'){
-                        mReadBuffer.setText("Game over");
+                        mReadBuffer.setText("Game over, score : " + score);
                     }
                     else{
-                            mReadBuffer.setText(readMessage);
+                        mReadBuffer.setText(readMessage);
+                        score++;
+                        System.out.println(readMessage);
                     }
                 }
 
@@ -169,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v){
                     if (mConnectedThread != null) {//First check to make sure thread created
+                        score = 0;
                         mConnectedThread.write("k");
                         mStartBtn.setText("Start");
                         mReadBuffer.setText("0");
