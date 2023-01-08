@@ -1,4 +1,5 @@
-<p style="font-weight: bold; font-size: 200%;">[Term Project Progress]</p>
+## [Term Project Progress]
+
 <br/>
 
 |        Date       |                                                                                                                                                      Progress                                                                                                                                                     |
