@@ -1,4 +1,4 @@
-# embedded_system_design
+# embedded-system-design
 PNU CSE 2022 'Embedded System Design & Lab' Repository
 
 부산대학교 정보컴퓨터공학부 2022 '임베디드 시스템 설계 및 실험' 수업 자료 및 텀 프로젝트를 정리한 저장소입니다.
